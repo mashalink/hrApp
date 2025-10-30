@@ -4,19 +4,8 @@
   padding: 0;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
-  background: rgb(200, 215, 225);
-}
-
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background: rgb(109, 141, 168);
 }
