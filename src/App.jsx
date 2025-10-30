@@ -1,39 +1,18 @@
 import "./App.css";
+import { useState } from "react";
+import { data } from "./data/data.js";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
-import Person from "./components/Person.jsx";
+import PersonList from "./components/PersonList.jsx";
 
 export default function App() {
+  const [employees, setEmployees] = useState(data); // Инициализация состояния с данными пока что из data.js и setEmployees не используется, в дальнейшем будет нужно для добавления новых сотрудников
+
   return (
     <div className="container">
       <Header />
       <main className="main">
-        <div className="grid">
-          <Person
-            name="Alice"
-            title="CEO"
-            salary="$120,000"
-            phone="+358 40 123 4567"
-            email="alice@example.com"
-            animal="Cat"
-          />
-          <Person
-            name="Bob"
-            title="Developer"
-            salary="$80,000"
-            phone="+358 40 234 5678"
-            email="bob@example.com"
-            animal="Dog"
-          />
-          <Person
-            name="Karin"
-            title="Designer"
-            salary="$75,000"
-            phone="+358 40 345 6789"
-            email="karin@example.com"
-            animal="Owl"
-          />
-        </div>
+        <PersonList employees={employees}></PersonList>
       </main>
       <Footer />
     </div>
