@@ -1,0 +1,189 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "Aino Virtanen",
+      "title": "HR Manager",
+      "salary": 4200,
+      "phone": "040-1234567",
+      "email": "aino.virtanen@example.com",
+      "animal": "Owl",
+      "startDate": "2018-04-01",
+      "location": "Helsinki",
+      "department": "Human Resources",
+      "skills": [
+        "Recruiting",
+        "Communication",
+        "Employee Relations"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Mikko Lehtinen",
+      "title": "Software Engineer",
+      "salary": 5200,
+      "phone": "050-2345678",
+      "email": "mikko.lehtinen@example.com",
+      "animal": "Fox",
+      "startDate": "2025-07-15",
+      "location": "Tampere",
+      "department": "Engineering",
+      "skills": [
+        "JavaScript",
+        "React",
+        "Node.js"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Liisa Korhonen",
+      "title": "UX Designer",
+      "salary": 4700,
+      "phone": "044-8765432",
+      "email": "liisa.korhonen@example.com",
+      "animal": "Cat",
+      "startDate": "2020-03-12",
+      "location": "Espoo",
+      "department": "Design",
+      "skills": [
+        "Figma",
+        "Prototyping",
+        "User Research"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Jussi Mäkinen",
+      "title": "Marketing Specialist",
+      "salary": 3900,
+      "phone": "045-1122334",
+      "email": "jussi.makinen@example.com",
+      "animal": "Raven",
+      "startDate": "2017-09-03",
+      "location": "Helsinki",
+      "department": "Marketing",
+      "skills": [
+        "SEO",
+        "Content Strategy",
+        "Social Media"
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Sanna Saarinen",
+      "title": "Data Analyst",
+      "salary": 5000,
+      "phone": "046-9988776",
+      "email": "sanna.saarinen@example.com",
+      "animal": "Hedgehog",
+      "startDate": "2021-01-20",
+      "location": "Turku",
+      "department": "Data Science",
+      "skills": [
+        "Python",
+        "SQL",
+        "Data Visualization"
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Antti Rantala",
+      "title": "Project Manager",
+      "salary": 5600,
+      "phone": "040-7766554",
+      "email": "antti.rantala@example.com",
+      "animal": "Dog",
+      "startDate": "2015-10-26",
+      "location": "Oulu",
+      "department": "Management",
+      "skills": [
+        "Scrum",
+        "Budgeting",
+        "Stakeholder Communication"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Noora Niemi",
+      "title": "QA Engineer",
+      "salary": 4500,
+      "phone": "050-3344556",
+      "email": "noora.niemi@example.com",
+      "animal": "Rabbit",
+      "startDate": "2022-02-01",
+      "location": "Tampere",
+      "department": "Quality Assurance",
+      "skills": [
+        "Test Automation",
+        "Cypress",
+        "Manual Testing"
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Teemu Koskinen",
+      "title": "DevOps Engineer",
+      "salary": 6000,
+      "phone": "041-6655443",
+      "email": "teemu.koskinen@example.com",
+      "animal": "Bear",
+      "startDate": "2018-10-30",
+      "location": "Espoo",
+      "department": "Infrastructure",
+      "skills": [
+        "AWS",
+        "Docker",
+        "CI/CD"
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Laura Peltonen",
+      "title": "Frontend Developer",
+      "salary": 4900,
+      "phone": "043-7788990",
+      "email": "laura.peltonen@example.com",
+      "animal": "Swan",
+      "startDate": "2020-10-19",
+      "location": "Helsinki",
+      "department": "Engineering",
+      "skills": [
+        "HTML",
+        "CSS",
+        "React"
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Eero Salmi",
+      "title": "Backend Developer",
+      "salary": 5400,
+      "phone": "045-1122003",
+      "email": "eero.salmi@example.com",
+      "animal": "Wolf",
+      "startDate": "2019-05-09",
+      "location": "Turku",
+      "department": "Engineering",
+      "skills": [
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ]
+    },
+    {
+      "id": 1762858470755,
+      "name": "Maria Link",
+      "title": "Queen",
+      "salary": 555555,
+      "phone": "0469322193",
+      "email": "maria8link@gmail.com",
+      "animal": "Cat",
+      "startDate": "2025-10-26",
+      "location": "Helsinki",
+      "department": "-",
+      "skills": [
+        "-"
+      ]
+    }
+  ]
+}

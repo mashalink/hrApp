@@ -1,55 +1,53 @@
 import "./App.css";
-import { useState } from "react";
-import { data } from "./data/data.js";
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
-import PersonList from "./components/PersonList.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./components/Layout.jsx";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
+import FooterPage from "./components/Footer.jsx";
+import AddEmployee from "./components/AddEmployee.jsx";
+import axios from "axios";
 
 export default function App() {
-  const [employees, setEmployees] = useState(data); // Инициализация состояния с данными пока что из data.js и setEmployees не используется, в дальнейшем будет нужно для добавления новых сотрудников
+  const [employees, setEmployees] = useState([]);
 
-  return (
-    <BrowserRouter>
-      <div className="container">
-        <Header />
-        <main className="main">
-          <Routes>
-            <Route path="/" element={<PersonList employees={employees} />} />
-            <Route
-              path="/add-employee"
-              element={<div>Add Employee Page (to be implemented)</div>} // Заглушка для страницы добавления сотрудника
-            />
-            <Route
-              path="/employee/:id"
-              element={<div>Employee Detail Page (to be implemented)</div>} // Заглушка для страницы деталей сотрудника
-            />
-            <Route
-              path="/about"
-              element={
-                <div>
-                  <h2>About This HR Application</h2>
-                  <p>
-                    This application is designed to manage employee records
-                    efficiently.
-                  </p>
-                </div>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <div>
-                  <h2>404 - Page Not Found</h2>
-                  {/* Заглушка для несущестующих маршрутов */}
-                  <p>The page you are looking for does not exist.</p>
-                </div>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
-  );
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/employees")
+      .then((res) => setEmployees(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
+  async function onAddEmployee(formData) {
+    const payload = {
+      id: Date.now(),
+      ...formData,
+      salary: Number(formData.salary),
+      skills: formData.skills
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    };
+    const res = await axios.post("http://localhost:3001/employees", payload);
+    setEmployees((prev) => [...prev, res.data]);
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        { index: true, element: <Home employees={employees} /> },
+        { path: "about", element: <About /> },
+        { path: "footer", element: <FooterPage /> },
+        {
+          path: "add_employee",
+          element: <AddEmployee onAddEmployee={onAddEmployee} />,
+        },
+        { path: "*", element: <div>404 - Not Found</div> },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
