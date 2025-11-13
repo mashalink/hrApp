@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function AddEmployee({ onAddEmployee }) {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     title: "",
@@ -24,7 +22,18 @@ export default function AddEmployee({ onAddEmployee }) {
   async function handleSubmit(e) {
     e.preventDefault();
     await onAddEmployee(formData);
-    navigate("/");
+    setFormData({
+      name: "",
+      title: "",
+      salary: "",
+      phone: "",
+      email: "",
+      animal: "",
+      startDate: "",
+      location: "",
+      department: "",
+      skills: "",
+    });
   }
 
   return (
@@ -33,20 +42,22 @@ export default function AddEmployee({ onAddEmployee }) {
       <form onSubmit={handleSubmit}>
         {Object.keys(formData).map((key) => (
           <div key={key}>
-            <label>{key}:</label>
-            <input
-              name={key}
-              value={formData[key]}
-              onChange={handleChange}
-              type={
-                key === "salary"
-                  ? "number"
-                  : key === "startDate"
-                  ? "date"
-                  : "text"
-              }
-              required={["name", "title", "email"].includes(key)}
-            />
+            <label>
+              {key}:
+              <input
+                name={key}
+                value={formData[key]}
+                onChange={handleChange}
+                type={
+                  key === "salary"
+                    ? "number"
+                    : key === "startDate"
+                    ? "date"
+                    : "text"
+                }
+                required={["name", "title", "email", "salary"].includes(key)}
+              />
+            </label>
           </div>
         ))}
         <button type="submit">Add Employee</button>

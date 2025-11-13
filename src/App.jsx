@@ -19,17 +19,22 @@ export default function App() {
   }, []);
 
   async function onAddEmployee(formData) {
-    const payload = {
-      id: Date.now(),
-      ...formData,
-      salary: Number(formData.salary),
-      skills: formData.skills
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-    };
-    const res = await axios.post("http://localhost:3001/employees", payload);
-    setEmployees((prev) => [...prev, res.data]);
+    try {
+      const payload = {
+        ...formData,
+        salary: Number(formData.salary),
+        skills: formData.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
+
+      const res = await axios.post("http://localhost:3001/employees", payload);
+      setEmployees((prev) => [...prev, res.data]);
+    } catch (err) {
+      console.error("Failed to add employee", err);
+      alert("Something went wrong while adding the employee.");
+    }
   }
 
   const router = createBrowserRouter([
