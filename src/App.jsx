@@ -37,12 +37,35 @@ export default function App() {
     }
   }
 
+  async function onUpdateEmployee(id, updates) {
+    try {
+      const res = await axios.patch(
+        `http://localhost:3001/employees/${id}`,
+        updates
+      );
+
+      setEmployees((prev) =>
+        prev.map((emp) => (emp.id === id ? res.data : emp))
+      );
+      return res.data;
+    } catch (err) {
+      console.error("Failed to update employee", err);
+      alert("Failed to save changes.");
+      throw err;
+    }
+  }
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Layout />,
       children: [
-        { index: true, element: <Home employees={employees} /> },
+        {
+          index: true,
+          element: (
+            <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
+          ),
+        },
         { path: "about", element: <About /> },
         { path: "footer", element: <FooterPage /> },
         {
