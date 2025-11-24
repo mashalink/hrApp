@@ -11,7 +11,11 @@
       "startDate": "2018-04-01",
       "location": "Helsinki",
       "department": "Human Resources",
-      "skills": ["Recruiting", "Communication", "Employee Relations"]
+      "skills": [
+        "Recruiting",
+        "Communication",
+        "Employee Relations"
+      ]
     },
     {
       "id": "2",
@@ -24,7 +28,11 @@
       "startDate": "2025-07-15",
       "location": "Tampere",
       "department": "Engineering",
-      "skills": ["JavaScript", "React", "Node.js"]
+      "skills": [
+        "JavaScript",
+        "React",
+        "Node.js"
+      ]
     },
     {
       "id": "3",
@@ -37,7 +45,11 @@
       "startDate": "2020-03-12",
       "location": "Espoo",
       "department": "Design",
-      "skills": ["Figma", "Prototyping", "User Research"]
+      "skills": [
+        "Figma",
+        "Prototyping",
+        "User Research"
+      ]
     },
     {
       "id": "4",
@@ -50,7 +62,11 @@
       "startDate": "2017-09-03",
       "location": "Helsinki",
       "department": "Marketing",
-      "skills": ["SEO", "Content Strategy", "Social Media"]
+      "skills": [
+        "SEO",
+        "Content Strategy",
+        "Social Media"
+      ]
     },
     {
       "id": "5",
@@ -61,9 +77,13 @@
       "email": "sanna.saarinen@example.com",
       "animal": "Hedgehog",
       "startDate": "2021-01-20",
-      "location": "Turku",
+      "location": "Kotka",
       "department": "Data Science",
-      "skills": ["Python", "SQL", "Data Visualization"]
+      "skills": [
+        "Python",
+        "SQL",
+        "Data Visualization"
+      ]
     },
     {
       "id": "6",
@@ -76,7 +96,11 @@
       "startDate": "2015-10-26",
       "location": "Oulu",
       "department": "Management",
-      "skills": ["Scrum", "Budgeting", "Stakeholder Communication"]
+      "skills": [
+        "Scrum",
+        "Budgeting",
+        "Stakeholder Communication"
+      ]
     },
     {
       "id": "7",
@@ -89,7 +113,11 @@
       "startDate": "2022-02-01",
       "location": "Tampere",
       "department": "Quality Assurance",
-      "skills": ["Test Automation", "Cypress", "Manual Testing"]
+      "skills": [
+        "Test Automation",
+        "Cypress",
+        "Manual Testing"
+      ]
     },
     {
       "id": "8",
@@ -102,7 +130,11 @@
       "startDate": "2018-10-30",
       "location": "Espoo",
       "department": "Infrastructure",
-      "skills": ["AWS", "Docker", "CI/CD"]
+      "skills": [
+        "AWS",
+        "Docker",
+        "CI/CD"
+      ]
     },
     {
       "id": "9",
@@ -115,7 +147,11 @@
       "startDate": "2020-10-19",
       "location": "Helsinki",
       "department": "Engineering",
-      "skills": ["HTML", "CSS", "React"]
+      "skills": [
+        "HTML",
+        "CSS",
+        "React"
+      ]
     },
     {
       "id": "10",
@@ -128,7 +164,11 @@
       "startDate": "2019-05-09",
       "location": "Turku",
       "department": "Engineering",
-      "skills": ["Node.js", "Express", "MongoDB"]
+      "skills": [
+        "Node.js",
+        "Express",
+        "MongoDB"
+      ]
     }
   ]
 }
