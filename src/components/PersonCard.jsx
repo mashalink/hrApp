@@ -25,7 +25,7 @@ export default function Person({
   const isAnniversary = yearsNum % 5 === 0 && yearsNum >= 5;
   const isProbation = yearsNum < 0.5;
 
-  // 🔹 Локальное состояние для редактирования
+  // Локальное состояние для редактирования
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     salary: salary ?? 0,
@@ -123,7 +123,7 @@ export default function Person({
 
       <p className={styles.title}>Title: {title}</p>
 
-      {/* 🔹 Режим отображения / редактирования зарплаты */}
+      {/* Режим отображения / редактирования зарплаты */}
       {isEditing ? (
         <p className={styles.salary}>
           Salary:{" "}
@@ -147,7 +147,7 @@ export default function Person({
       </p>
       <p className={styles.animal}>Animal: {getAnimalEmoji(animal)}</p>
 
-      {/* 🔹 Location */}
+      {/* Location */}
       {isEditing ? (
         <p className={styles.location}>
           Location:{" "}
@@ -162,7 +162,7 @@ export default function Person({
         <p className={styles.location}>Location: {location}</p>
       )}
 
-      {/* 🔹 Department */}
+      {/* Department */}
       {isEditing ? (
         <p className={styles.department}>
           Department:{" "}
@@ -177,7 +177,7 @@ export default function Person({
         <p className={styles.department}>Department: {department}</p>
       )}
 
-      {/* 🔹 Skills */}
+      {/* Skills */}
       <div className={styles.skills}>
         <span>Skills:</span>
         {isEditing ? (
@@ -196,7 +196,7 @@ export default function Person({
         )}
       </div>
 
-      {/* 🔹 Кнопки и сообщение о сохранении */}
+      {/* Кнопки и сообщение о сохранении  PS нужно заменить на коментарии на англиском, все!*/}
       <div className={styles.actions}>
         {isEditing ? (
           <>
