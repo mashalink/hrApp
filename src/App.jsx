@@ -6,14 +6,14 @@ import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
 import FooterPage from "./components/Footer.jsx";
 import AddEmployee from "./components/AddEmployee.jsx";
-import axios from "axios";
+import useAxios from "./hooks/useAxios";
 
 export default function App() {
   const [employees, setEmployees] = useState([]);
+  const { get, post, patch } = useAxios();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/employees")
+    get("/employees")
       .then((res) => setEmployees(res.data))
       .catch((err) => console.error(err));
   }, []);
@@ -29,7 +29,7 @@ export default function App() {
           .filter(Boolean),
       };
 
-      const res = await axios.post("http://localhost:3001/employees", payload);
+      const res = await post("/employees", payload);
       setEmployees((prev) => [...prev, res.data]);
     } catch (err) {
       console.error("Failed to add employee", err);
@@ -39,14 +39,12 @@ export default function App() {
 
   async function onUpdateEmployee(id, updates) {
     try {
-      const res = await axios.patch(
-        `http://localhost:3001/employees/${id}`,
-        updates
-      );
+      const res = await patch(`/employees/${id}`, updates);
 
       setEmployees((prev) =>
         prev.map((emp) => (emp.id === id ? res.data : emp))
       );
+
       return res.data;
     } catch (err) {
       console.error("Failed to update employee", err);
