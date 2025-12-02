@@ -2,10 +2,17 @@ import axios from "axios";
 
 const API_URL = "https://hrapp-ovc7.onrender.com";
 
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+});
+
 const useAxios = () => {
-  const get = (path) => axios.get(`${API_URL}${path}`);
-  const post = (path, data) => axios.post(`${API_URL}${path}`, data);
-  const patch = (path, data) => axios.patch(`${API_URL}${path}`, data);
+  console.log("API_URL:", API_URL);
+
+  const get = (path) => axiosInstance.get(path);
+  const post = (path, data) => axiosInstance.post(path, data);
+  const patch = (path, data) => axiosInstance.patch(path, data);
+
   return { get, post, patch };
 };
 
