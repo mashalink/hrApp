@@ -21,19 +21,23 @@ export default function AddEmployee({ onAddEmployee }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await onAddEmployee(formData);
-    setFormData({
-      name: "",
-      title: "",
-      salary: "",
-      phone: "",
-      email: "",
-      animal: "",
-      startDate: "",
-      location: "",
-      department: "",
-      skills: "",
-    });
+    try {
+      await onAddEmployee(formData);
+      setFormData({
+        name: "",
+        title: "",
+        salary: "",
+        phone: "",
+        email: "",
+        animal: "",
+        startDate: "",
+        location: "",
+        department: "",
+        skills: "",
+      });
+    } catch {
+      //  AddEmployee showed alert yet
+    }
   }
 
   return (
