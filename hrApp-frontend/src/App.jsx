@@ -6,7 +6,7 @@ import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
 import FooterPage from "./components/Footer.jsx";
 import AddEmployee from "./components/AddEmployee.jsx";
-import useAxios from "./hooks/useAxios";
+import useAxios from "./hooks/useAxios.js";
 
 export default function App() {
   const [employees, setEmployees] = useState([]);
