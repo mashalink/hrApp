@@ -106,17 +106,6 @@ export default function AddEmployee({ onAddEmployee }) {
               <TextField
                 fullWidth
                 size="small"
-                name="phone"
-                label="Phone"
-                value={formData.phone}
-                onChange={handleChange}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                size="small"
                 name="animal"
                 label="Animal"
                 value={formData.animal}
