@@ -1,15 +1,23 @@
-import styles from "./PersonCard.module.css";
+import { Alert, Box, Typography } from "@mui/material";
 
 export default function PersonHeader({ name, isAnniversary, isProbation }) {
   return (
-    <>
-      <h3 className={styles.name}>{name}</h3>
+    <Box sx={{ mb: 1 }}>
+      <Typography variant="h6" sx={{ fontWeight: 700 }}>
+        {name}
+      </Typography>
+
       {isAnniversary && (
-        <div className={styles.reminder}>🎉 Schedule recognition meeting.</div>
+        <Alert severity="success" sx={{ mt: 1 }}>
+          Schedule recognition meeting.
+        </Alert>
       )}
+
       {isProbation && (
-        <div className={styles.reminder}>🔔 Schedule probation review.</div>
+        <Alert severity="warning" sx={{ mt: 1 }}>
+          Schedule probation review.
+        </Alert>
       )}
-    </>
+    </Box>
   );
 }

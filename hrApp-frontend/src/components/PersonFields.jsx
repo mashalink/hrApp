@@ -1,4 +1,4 @@
-import styles from "./PersonCard.module.css";
+import { Box, TextField, Typography, Stack } from "@mui/material";
 
 export default function PersonFields({
   isEditing,
@@ -12,59 +12,67 @@ export default function PersonFields({
   department,
 }) {
   return (
-    <>
+    <Stack spacing={1} sx={{ mt: 1 }}>
       {isEditing ? (
-        <p className={styles.salary}>
-          Salary:{" "}
-          <input
-            type="number"
-            name="salary"
-            value={formData.salary}
-            onChange={onChange}
-          />{" "}
-          €
-        </p>
+        <TextField
+          size="small"
+          label="Salary"
+          type="number"
+          name="salary"
+          value={formData.salary}
+          onChange={onChange}
+        />
       ) : (
-        <p className={styles.salary}>Salary: {salary} €</p>
+        <Typography variant="body2">
+          <Box component="span" sx={{ fontWeight: 600 }}>Salary:</Box> {salary} €
+        </Typography>
       )}
 
-      <p className={styles.phone}>
-        Phone: <a href={`tel:${phone}`}>{phone}</a>
-      </p>
-
-      <p className={styles.email}>
-        Email: <a href={`mailto:${email}`}>{email}</a>
-      </p>
-
-      <p className={styles.animal}>Animal: {animal}</p>
+      <Typography variant="body2">
+        <Box component="span" sx={{ fontWeight: 600 }}>Animal:</Box> {animal}
+      </Typography>
 
       {isEditing ? (
-        <p className={styles.location}>
-          Location:{" "}
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={onChange}
-          />
-        </p>
+        <TextField
+          size="small"
+          label="Location"
+          name="location"
+          value={formData.location}
+          onChange={onChange}
+        />
       ) : (
-        <p className={styles.location}>Location: {location}</p>
+        <Typography variant="body2">
+          <Box component="span" sx={{ fontWeight: 600 }}>Location:</Box> {location}
+        </Typography>
       )}
 
       {isEditing ? (
-        <p className={styles.department}>
-          Department:{" "}
-          <input
-            type="text"
-            name="department"
-            value={formData.department}
-            onChange={onChange}
-          />
-        </p>
+        <TextField
+          size="small"
+          label="Department"
+          name="department"
+          value={formData.department}
+          onChange={onChange}
+        />
       ) : (
-        <p className={styles.department}>Department: {department}</p>
+        <Typography variant="body2">
+          <Box component="span" sx={{ fontWeight: 600 }}>Department:</Box> {department}
+        </Typography>
       )}
-    </>
+
+      <Typography variant="body2">
+        <Box component="span" sx={{ fontWeight: 600 }}>Email:</Box>{" "}
+        <Box component="a" href={`mailto:${email}`} sx={{ color: "primary.main", textDecoration: "none" }}>
+          {email}
+        </Box>
+      </Typography>
+
+      <Typography variant="body2">
+        <Box component="span" sx={{ fontWeight: 600 }}>Phone:</Box>{" "}
+        <Box component="a" href={`tel:${phone}`} sx={{ color: "primary.main", textDecoration: "none" }}>
+          {phone}
+        </Box>
+      </Typography>
+    </Stack>
   );
 }

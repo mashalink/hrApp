@@ -52,10 +52,11 @@ export default function AddEmployee({ onAddEmployee }) {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={2} alignItems="flex-start">
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="name"
                 label="Name"
                 value={formData.name}
@@ -64,20 +65,22 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                name="title"
-                label="Title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-              />
-            </Grid>
+            <Grid item xs={12} md={4}>
+  <TextField
+    fullWidth
+    size="small"
+    name="phone"
+    label="Phone"
+    value={formData.phone}
+    onChange={handleChange}
+    sx={{ flexGrow: 1 }}
+  />
+</Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="salary"
                 label="Salary"
                 type="number"
@@ -87,9 +90,10 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="email"
                 label="Email"
                 value={formData.email}
@@ -98,9 +102,10 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="phone"
                 label="Phone"
                 value={formData.phone}
@@ -108,9 +113,10 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="animal"
                 label="Animal"
                 value={formData.animal}
@@ -118,21 +124,10 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
-                name="startDate"
-                label="Start date"
-                type="date"
-                value={formData.startDate}
-                onChange={handleChange}
-                InputLabelProps={{ shrink: true }}
-              />
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
+                size="small"
                 name="location"
                 label="Location"
                 value={formData.location}
@@ -140,9 +135,10 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="department"
                 label="Department"
                 value={formData.department}
@@ -150,15 +146,30 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
+                size="small"
                 name="skills"
                 label="Skills (comma separated)"
                 value={formData.skills}
                 onChange={handleChange}
               />
             </Grid>
+              <Grid item xs={12} md={4}>
+              <TextField
+                fullWidth
+                size="small"
+                name="startDate"
+                label="Start date"
+                type="date"
+                value={formData.startDate}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+                sx={{ flexGrow: 1 }}
+              />
+            </Grid>
+
           </Grid>
 
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>

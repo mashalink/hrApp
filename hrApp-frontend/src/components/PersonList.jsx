@@ -1,9 +1,19 @@
+import { Box } from "@mui/material";
 import Person from "./PersonCard.jsx";
-import style from "./PersonList.module.css";
 
 export default function PersonList({ employees, onUpdateEmployee }) {
   return (
-    <div className={style.cardContainer}>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" },
+        gap: 3,
+        maxWidth: 1200,
+        mx: "auto",
+        mt: 4,
+        px: 2,
+      }}
+    >
       {employees.map((employee) => (
         <Person
           key={employee.id}
@@ -21,6 +31,6 @@ export default function PersonList({ employees, onUpdateEmployee }) {
           onUpdateEmployee={onUpdateEmployee}
         />
       ))}
-    </div>
+    </Box>
   );
 }
