@@ -14,7 +14,6 @@
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.7",
     "axios": "^1.13.2",
-    "json-server": "^1.0.0-beta.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.5"
