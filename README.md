@@ -11,7 +11,7 @@ The project is split into two independent parts:
 ### Frontend
 
 Deployed as a Static Site on Render:  
-https://hrapp-1-y52h.onrender.com/
+https://hrappsite.onrender.com/
 
 ### Backend
 
@@ -26,11 +26,19 @@ https://hrapp-ovc7.onrender.com/employees
 - Vite
 - React Router
 - Axios
+- Material UI (MUI)
 
 ### Backend
 
 - JSON Server
 - Render Web Service
+
+## ✨ Features
+
+- View employee list
+- Add new employees
+- Edit employee details
+- Probation and anniversary reminders
 
 ## 📂 Project Structure
 
@@ -88,11 +96,12 @@ npm run dev
 
 - The project is separated into frontend and backend for easier deployment and maintenance.
 - In production, the frontend automatically communicates with the backend deployed on Render.
-- CSS styling is still a work in progress.
 
-## 📌 To-Do
+## ✅ Done
 
-- Improve UI styles (CSS)
-- Add better error handling and notifications
-- Expand employee data model (positions, departments, etc.)
-- Add search and filtering features
+- Frontend deployed on Render with Vite + React Router setup
+- Backend JSON Server deployed on Render with employee CRUD endpoints
+- Axios-based data fetching wired to the deployed API
+- Local development scripts verified for both frontend and backend
+
+
