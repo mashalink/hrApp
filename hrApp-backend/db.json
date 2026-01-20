@@ -169,23 +169,6 @@
         "Express",
         "MongoDB"
       ]
-    },
-    {
-      "id": "b4a0",
-      "name": "Maria Link",
-      "title": "-",
-      "salary": 555555,
-      "phone": "0469322193",
-      "email": "maria8link@gmail.com",
-      "animal": "",
-      "startDate": "",
-      "location": "",
-      "department": "",
-      "skills": [
-        "Python",
-        "SQL",
-        "Data Visualization"
-      ]
     }
   ]
 }
