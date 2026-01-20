@@ -1,4 +1,4 @@
-import styles from "./PersonCard.module.css";
+import { Box, Button, Stack, Typography } from "@mui/material";
 
 export default function PersonActions({
   isEditing,
@@ -9,23 +9,48 @@ export default function PersonActions({
   onSave,
 }) {
   return (
-    <div className={styles.actions}>
-      {isEditing ? (
-        <>
-          <button onClick={onSave} disabled={isSaving}>
-            {isSaving ? "Saving..." : "Save"}
-          </button>
-          <button type="button" onClick={onCancel} disabled={isSaving}>
-            Cancel
-          </button>
-        </>
-      ) : (
-        <button type="button" onClick={onEdit}>
-          Edit
-        </button>
-      )}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        mt: 2,
+        gap: 2,
+      }}
+    >
+      <Stack direction="row" spacing={1}>
+        {isEditing ? (
+          <>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={onSave}
+              disabled={isSaving}
+            >
+              {isSaving ? "Saving..." : "Save"}
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              type="button"
+              onClick={onCancel}
+              disabled={isSaving}
+            >
+              Cancel
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" size="small" type="button" onClick={onEdit}>
+            Edit
+          </Button>
+        )}
+      </Stack>
 
-      {saveMessage && <span className={styles.saveMessage}>{saveMessage}</span>}
-    </div>
+      {saveMessage && (
+        <Typography variant="caption" color="success.main">
+          {saveMessage}
+        </Typography>
+      )}
+    </Box>
   );
 }

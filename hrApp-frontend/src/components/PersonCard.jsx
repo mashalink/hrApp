@@ -1,83 +1,145 @@
-import styles from "./PersonCard.module.css";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { getAnimalEmoji } from "../utils/animalEmoji";
-import { getEmployeeFlags } from "../utils/calcEmployeeFlags";
-import useEmployeeEditor from "../hooks/useEmployeeEditor";
 
-import PersonHeader from "./PersonHeader";
-import PersonFields from "./PersonFields";
-import PersonSkills from "./PersonSkills";
-import PersonActions from "./PersonActions";
-
-export default function Person(props) {
-  const {
-    id,
-    name,
-    title,
-    salary,
-    phone,
-    email,
-    animal,
-    location,
-    department,
-    skills,
-    startDate,
-    onUpdateEmployee,
-  } = props;
-
-  const { isAnniversary, isProbation } = getEmployeeFlags(startDate);
-
-  const {
-    isEditing,
-    isSaving,
-    formData,
-    saveMessage,
-    startEditing,
-    cancelEditing,
-    handleFieldChange,
-    saveChanges,
-  } = useEmployeeEditor(
-    { salary, location, department, skills },
-    onUpdateEmployee,
-    id
-  );
+export default function PersonCardView({
+  name,
+  title,
+  salary,
+  phone,
+  email,
+  animal,
+  location,
+  department,
+  skills,
+  onEdit,
+}) {
+  const skillsList = Array.isArray(skills)
+    ? skills
+    : skills
+        ?.split(",")
+        .map((s) => s.trim())
+        .filter(Boolean) || [];
 
   return (
-    <article className={styles.card}>
-      <PersonHeader
-        name={name}
-        isAnniversary={isAnniversary}
-        isProbation={isProbation}
-      />
+    <Card
+      sx={{
+        width: 360,
+        borderRadius: 2,
+        boxShadow: 4,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+    >
+      <CardContent sx={{ pb: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 1,
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            {name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {getAnimalEmoji(animal)}
+          </Typography>
+        </Box>
 
-      <p className={styles.title}>Title: {title}</p>
+        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          {title}
+        </Typography>
 
-      <PersonFields
-        isEditing={isEditing}
-        formData={formData}
-        onChange={handleFieldChange}
-        salary={salary}
-        phone={phone}
-        email={email}
-        animal={getAnimalEmoji(animal)}
-        location={location}
-        department={department}
-      />
+        <Divider sx={{ mb: 2 }} />
 
-      <PersonSkills
-        isEditing={isEditing}
-        formData={formData}
-        onChange={handleFieldChange}
-        skills={skills}
-      />
+        <Stack spacing={1} sx={{ color: "text.secondary" }}>
+          <Typography variant="body2">
+            <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
+              Salary:
+            </Box>{" "}
+            {salary} €
+          </Typography>
 
-      <PersonActions
-        isEditing={isEditing}
-        isSaving={isSaving}
-        saveMessage={saveMessage}
-        onEdit={startEditing}
-        onCancel={cancelEditing}
-        onSave={saveChanges}
-      />
-    </article>
+          <Typography variant="body2">
+            <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
+              Department:
+            </Box>{" "}
+            {department}
+          </Typography>
+
+          <Typography variant="body2">
+            <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
+              Location:
+            </Box>{" "}
+            {location}
+          </Typography>
+
+          <Typography variant="body2">
+            <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
+              Email:
+            </Box>{" "}
+            <Box
+              component="a"
+              href={`mailto:${email}`}
+              sx={{ color: "primary.main", textDecoration: "none" }}
+            >
+              {email}
+            </Box>
+          </Typography>
+
+          <Typography variant="body2">
+            <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
+              Phone:
+            </Box>{" "}
+            <Box
+              component="a"
+              href={`tel:${phone}`}
+              sx={{ color: "primary.main", textDecoration: "none" }}
+            >
+              {phone}
+            </Box>
+          </Typography>
+        </Stack>
+
+        <Box sx={{ mt: 2 }}>
+          <Typography
+            variant="subtitle2"
+            sx={{ fontWeight: 600, color: "text.primary", mb: 1 }}
+          >
+            Skills
+          </Typography>
+
+          {skillsList.length ? (
+            <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
+              {skillsList.map((s) => (
+                <Chip key={s} label={s} size="small" />
+              ))}
+            </Stack>
+          ) : (
+            <Typography variant="body2" color="text.secondary">
+              No skills listed
+            </Typography>
+          )}
+        </Box>
+      </CardContent>
+
+      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 2 }}>
+        <Button size="small" variant="contained" onClick={onEdit}>
+          Edit
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

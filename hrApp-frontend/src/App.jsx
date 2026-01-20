@@ -6,6 +6,7 @@ import Home from "./components/Home.jsx";
 import About from "./components/About.jsx";
 import FooterPage from "./components/Footer.jsx";
 import AddEmployee from "./components/AddEmployee.jsx";
+import EmployeeTable from "./components/EmployeeTable.jsx";
 import useAxios from "./hooks/useAxios.js";
 
 export default function App() {
@@ -69,6 +70,10 @@ export default function App() {
         {
           path: "add_employee",
           element: <AddEmployee onAddEmployee={onAddEmployee} />,
+        },
+        {
+          path: "table",
+          element: <EmployeeTable employees={employees} />,
         },
         { path: "*", element: <div>404 - Not Found</div> },
       ],
