@@ -1,14 +1,27 @@
 export function getEmployeeFlags(startDate) {
-  const years = (
-    (Date.now() - new Date(startDate)) /
-    (1000 * 60 * 60 * 24 * 365)
-  ).toFixed(1);
+  if (!startDate) {
+    return {
+      yearsWorked: 0,
+      monthsWorked: 0,
+      isAnniversary: false,
+      isProbation: false,
+    };
+  }
 
-  const yearsNum = parseFloat(years);
+  const yearsWorked = Math.floor(
+    (Date.now() - new Date(startDate)) / (1000 * 60 * 60 * 24 * 365.25)
+  );
+
+  const monthsWorked =
+    (Date.now() - new Date(startDate)) / (1000 * 60 * 60 * 24 * 30.4375);
+
+  const isAnniversary = yearsWorked > 0 && yearsWorked % 5 === 0;
+  const isProbation = monthsWorked < 6;
 
   return {
-    yearsNum,
-    isAnniversary: yearsNum % 5 === 0 && yearsNum >= 5,
-    isProbation: yearsNum < 0.5,
+    yearsWorked,
+    monthsWorked,
+    isAnniversary,
+    isProbation,
   };
 }

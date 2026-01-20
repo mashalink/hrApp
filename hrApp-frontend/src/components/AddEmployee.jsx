@@ -66,16 +66,16 @@ export default function AddEmployee({ onAddEmployee }) {
             </Grid>
 
             <Grid item xs={12} md={4}>
-  <TextField
-    fullWidth
-    size="small"
-    name="phone"
-    label="Phone"
-    value={formData.phone}
-    onChange={handleChange}
-    sx={{ flexGrow: 1 }}
-  />
-</Grid>
+              <TextField
+                fullWidth
+                size="small"
+                name="phone"
+                label="Phone"
+                value={formData.phone}
+                onChange={handleChange}
+                sx={{ flexGrow: 1 }}
+              />
+            </Grid>
 
             <Grid item xs={12} md={4}>
               <TextField
@@ -145,7 +145,8 @@ export default function AddEmployee({ onAddEmployee }) {
                 onChange={handleChange}
               />
             </Grid>
-              <Grid item xs={12} md={4}>
+
+            <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
                 size="small"
