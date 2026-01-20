@@ -9,15 +9,7 @@ export default function PersonActions({
   onSave,
 }) {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        mt: 2,
-        gap: 2,
-      }}
-    >
+    <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, width: "100%" }}>
       <Stack direction="row" spacing={1}>
         {isEditing ? (
           <>

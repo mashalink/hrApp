@@ -81,19 +81,6 @@ export default function AddEmployee({ onAddEmployee }) {
               <TextField
                 fullWidth
                 size="small"
-                name="salary"
-                label="Salary"
-                type="number"
-                value={formData.salary}
-                onChange={handleChange}
-                required
-              />
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <TextField
-                fullWidth
-                size="small"
                 name="email"
                 label="Email"
                 value={formData.email}
@@ -134,6 +121,31 @@ export default function AddEmployee({ onAddEmployee }) {
                 onChange={handleChange}
               />
             </Grid>
+
+            <Grid item xs={12} md={4}>
+              <TextField
+                fullWidth
+                size="small"
+                name="title"
+                label="Title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <TextField
+                fullWidth
+                size="small"
+                name="salary"
+                label="Salary"
+                type="number"
+                value={formData.salary}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+
 
             <Grid item xs={12} md={4}>
               <TextField

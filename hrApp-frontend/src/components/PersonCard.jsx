@@ -7,11 +7,17 @@ import {
   Chip,
   Divider,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { getAnimalEmoji } from "../utils/animalEmoji";
+import PersonHeader from "./PersonHeader";
+import PersonActions from "./PersonActions";
+import useEmployeeEditor from "../hooks/useEmployeeEditor";
+import { getEmployeeFlags } from "../utils/calcEmployeeFlags";
 
-export default function PersonCardView({
+export default function PersonCard({
+  id,
   name,
   title,
   salary,
@@ -21,14 +27,28 @@ export default function PersonCardView({
   location,
   department,
   skills,
-  onEdit,
+  startDate,
+  onUpdateEmployee,
 }) {
+  const { yearsWorked, isAnniversary, isProbation } = getEmployeeFlags(startDate);
+
+  const {
+    isEditing,
+    isSaving,
+    formData,
+    saveMessage,
+    startEditing,
+    cancelEditing,
+    handleFieldChange,
+    saveChanges,
+  } = useEmployeeEditor({ salary, location, department, skills }, onUpdateEmployee, id);
+
   const skillsList = Array.isArray(skills)
     ? skills
-    : skills
-        ?.split(",")
+    : (skills ?? "")
+        .split(",")
         .map((s) => s.trim())
-        .filter(Boolean) || [];
+        .filter(Boolean);
 
   return (
     <Card
@@ -42,21 +62,13 @@ export default function PersonCardView({
       }}
     >
       <CardContent sx={{ pb: 1 }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mb: 1,
-          }}
-        >
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            {name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {getAnimalEmoji(animal)}
-          </Typography>
-        </Box>
+        <PersonHeader
+          name={name}
+          emoji={getAnimalEmoji(animal)}
+          isAnniversary={isAnniversary}
+          isProbation={isProbation}
+          yearsWorked={yearsWorked}
+        />
 
         <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
           {title}
@@ -69,21 +81,53 @@ export default function PersonCardView({
             <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
               Salary:
             </Box>{" "}
-            {salary} €
+            {isEditing ? (
+              <TextField
+                name="salary"
+                type="number"
+                size="small"
+                value={formData.salary}
+                onChange={handleFieldChange}
+                sx={{ width: 140, ml: 1 }}
+                InputProps={{ inputProps: { min: 0 } }}
+              />
+            ) : (
+              `${salary} €`
+            )}
           </Typography>
 
           <Typography variant="body2">
             <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
               Department:
             </Box>{" "}
-            {department}
+            {isEditing ? (
+              <TextField
+                name="department"
+                size="small"
+                value={formData.department}
+                onChange={handleFieldChange}
+                sx={{ width: "100%", maxWidth: 220, ml: 1 }}
+              />
+            ) : (
+              department || "—"
+            )}
           </Typography>
 
           <Typography variant="body2">
             <Box component="span" sx={{ fontWeight: 600, color: "text.primary" }}>
               Location:
             </Box>{" "}
-            {location}
+            {isEditing ? (
+              <TextField
+                name="location"
+                size="small"
+                value={formData.location}
+                onChange={handleFieldChange}
+                sx={{ width: "100%", maxWidth: 220, ml: 1 }}
+              />
+            ) : (
+              location || "—"
+            )}
           </Typography>
 
           <Typography variant="body2">
@@ -114,31 +158,46 @@ export default function PersonCardView({
         </Stack>
 
         <Box sx={{ mt: 2 }}>
-          <Typography
-            variant="subtitle2"
-            sx={{ fontWeight: 600, color: "text.primary", mb: 1 }}
-          >
+          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
             Skills
           </Typography>
 
-          {skillsList.length ? (
-            <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
-              {skillsList.map((s) => (
-                <Chip key={s} label={s} size="small" />
-              ))}
-            </Stack>
+          {isEditing ? (
+            <TextField
+              fullWidth
+              size="small"
+              name="skillsText"
+              label="Skills (comma separated)"
+              value={formData.skillsText}
+              onChange={handleFieldChange}
+            />
           ) : (
-            <Typography variant="body2" color="text.secondary">
-              No skills listed
-            </Typography>
+            <>
+              {skillsList.length ? (
+                <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
+                  {skillsList.map((s) => (
+                    <Chip key={s} label={s} size="small" />
+                  ))}
+                </Stack>
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No skills listed
+                </Typography>
+              )}
+            </>
           )}
         </Box>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: "flex-end", px: 2, pb: 2 }}>
-        <Button size="small" variant="contained" onClick={onEdit}>
-          Edit
-        </Button>
+      <CardActions sx={{ px: 2, pb: 2, mt: "auto" }}>
+        <PersonActions
+          isEditing={isEditing}
+          isSaving={isSaving}
+          saveMessage={saveMessage}
+          onEdit={startEditing}
+          onCancel={cancelEditing}
+          onSave={saveChanges}
+        />
       </CardActions>
     </Card>
   );
