@@ -1,6 +1,6 @@
 import "./App.css";
 import { Alert, Snackbar } from "@mui/material";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
   createEmployee,
@@ -9,6 +9,7 @@ import {
   updateEmployee,
 } from "./api/employees.js";
 import Layout from "./components/Layout.jsx";
+import RouteFallback from "./components/RouteFallback.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -25,12 +26,9 @@ const initialSnackbarState = {
   severity: "success",
 };
 
-function RouteFallback() {
-  return <div>Loading...</div>;
-}
-
 export default function App() {
   const [employees, setEmployees] = useState([]);
+  const [isLoadingEmployees, setIsLoadingEmployees] = useState(true);
   const [snackbar, setSnackbar] = useState(initialSnackbarState);
 
   function showSnackbar(message, severity = "info") {
@@ -71,6 +69,10 @@ export default function App() {
             message: getRequestErrorMessage(err, LOAD_EMPLOYEES_ERROR),
             severity: "error",
           });
+        }
+      } finally {
+        if (isActive) {
+          setIsLoadingEmployees(false);
         }
       }
     }
@@ -133,25 +135,36 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
-        <Suspense fallback={<RouteFallback />}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route
-                index
-                element={
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={
+                isLoadingEmployees ? (
+                  <RouteFallback />
+                ) : (
                   <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
-                }
-              />
-              <Route path="about" element={<About />} />
-              <Route
-                path="add_employee"
-                element={<AddEmployee onAddEmployee={onAddEmployee} />}
-              />
-              <Route path="table" element={<EmployeeTable employees={employees} />} />
-              <Route path="*" element={<div>404 - Not Found</div>} />
-            </Route>
-          </Routes>
-        </Suspense>
+                )
+              }
+            />
+            <Route path="about" element={<About />} />
+            <Route
+              path="add_employee"
+              element={<AddEmployee onAddEmployee={onAddEmployee} />}
+            />
+            <Route
+              path="table"
+              element={
+                isLoadingEmployees ? (
+                  <RouteFallback />
+                ) : (
+                  <EmployeeTable employees={employees} />
+                )
+              }
+            />
+            <Route path="*" element={<div>404 - Not Found</div>} />
+          </Route>
+        </Routes>
       </BrowserRouter>
       <Snackbar
         open={snackbar.open}
