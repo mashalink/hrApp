@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Check formatting
+        run: npm run format:check
+        timeout-minutes: 5
+
+  frontend:
+    name: Frontend Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: hrApp-frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: hrApp-frontend
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Lint frontend
+        working-directory: hrApp-frontend
+        run: npm run lint
+        timeout-minutes: 5
+
+      - name: Build frontend
+        working-directory: hrApp-frontend
+        run: npm run build
+        timeout-minutes: 10
+
+  backend:
+    name: Backend Data Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: hrApp-backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: hrApp-backend
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Validate backend dataset
+        working-directory: hrApp-backend
+        run: npm run check
+        timeout-minutes: 5

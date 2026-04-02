@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

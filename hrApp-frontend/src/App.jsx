@@ -1,41 +1,37 @@
 import "./App.css";
-import { useState, useEffect } from "react";
 import { Alert, Snackbar } from "@mui/material";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  createEmployee,
+  fetchEmployees,
+  getRequestErrorMessage,
+  updateEmployee,
+} from "./api/employees.js";
 import Layout from "./components/Layout.jsx";
-import Home from "./components/Home.jsx";
-import About from "./components/About.jsx";
-import FooterPage from "./components/Footer.jsx";
-import AddEmployee from "./components/AddEmployee.jsx";
-import EmployeeTable from "./components/EmployeeTable.jsx";
-import useAxios from "./hooks/useAxios.js";
 
+const Home = lazy(() => import("./components/Home.jsx"));
+const About = lazy(() => import("./components/About.jsx"));
+const AddEmployee = lazy(() => import("./components/AddEmployee.jsx"));
+const EmployeeTable = lazy(() => import("./components/EmployeeTable.jsx"));
+
+const LOAD_EMPLOYEES_ERROR = "Failed to load employees.";
 const ADD_EMPLOYEE_ERROR = "Something went wrong while adding the employee.";
 const UPDATE_EMPLOYEE_ERROR = "Failed to save changes.";
 
-function getRequestErrorMessage(error, fallbackMessage) {
-  if (typeof error?.response?.data === "string" && error.response.data.trim()) {
-    return error.response.data;
-  }
+const initialSnackbarState = {
+  open: false,
+  message: "",
+  severity: "success",
+};
 
-  if (
-    typeof error?.response?.data?.message === "string" &&
-    error.response.data.message.trim()
-  ) {
-    return error.response.data.message;
-  }
-
-  return fallbackMessage;
+function RouteFallback() {
+  return <div>Loading...</div>;
 }
 
 export default function App() {
   const [employees, setEmployees] = useState([]);
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    message: "",
-    severity: "success",
-  });
-  const { get, post, patch } = useAxios();
+  const [snackbar, setSnackbar] = useState(initialSnackbarState);
 
   function showSnackbar(message, severity = "info") {
     setSnackbar({
@@ -57,9 +53,33 @@ export default function App() {
   }
 
   useEffect(() => {
-    get("/employees")
-      .then((res) => setEmployees(res.data))
-      .catch((err) => console.error(err));
+    let isActive = true;
+
+    async function loadEmployees() {
+      try {
+        const res = await fetchEmployees();
+
+        if (isActive) {
+          setEmployees(res.data);
+        }
+      } catch (err) {
+        console.error("Failed to load employees", err);
+
+        if (isActive) {
+          setSnackbar({
+            open: true,
+            message: getRequestErrorMessage(err, LOAD_EMPLOYEES_ERROR),
+            severity: "error",
+          });
+        }
+      }
+    }
+
+    loadEmployees();
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   async function onAddEmployee(formData) {
@@ -73,7 +93,7 @@ export default function App() {
           .filter(Boolean),
       };
 
-      const res = await post("/employees", payload);
+      const res = await createEmployee(payload);
       setEmployees((prev) => [...prev, res.data]);
       showSnackbar("Employee added successfully.", "success");
 
@@ -98,11 +118,9 @@ export default function App() {
 
   async function onUpdateEmployee(id, updates) {
     try {
-      const res = await patch(`/employees/${id}`, updates);
+      const res = await updateEmployee(id, updates);
 
-      setEmployees((prev) =>
-        prev.map((emp) => (emp.id === id ? res.data : emp))
-      );
+      setEmployees((prev) => prev.map((emp) => (emp.id === id ? res.data : emp)));
 
       return res.data;
     } catch (err) {
@@ -112,35 +130,29 @@ export default function App() {
     }
   }
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          index: true,
-          element: (
-            <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
-          ),
-        },
-        { path: "about", element: <About /> },
-        { path: "footer", element: <FooterPage /> },
-        {
-          path: "add_employee",
-          element: <AddEmployee onAddEmployee={onAddEmployee} />,
-        },
-        {
-          path: "table",
-          element: <EmployeeTable employees={employees} />,
-        },
-        { path: "*", element: <div>404 - Not Found</div> },
-      ],
-    },
-  ]);
-
   return (
     <>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route
+                index
+                element={
+                  <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
+                }
+              />
+              <Route path="about" element={<About />} />
+              <Route
+                path="add_employee"
+                element={<AddEmployee onAddEmployee={onAddEmployee} />}
+              />
+              <Route path="table" element={<EmployeeTable employees={employees} />} />
+              <Route path="*" element={<div>404 - Not Found</div>} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
       <Snackbar
         open={snackbar.open}
         autoHideDuration={4000}

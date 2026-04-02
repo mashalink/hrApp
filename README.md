@@ -1,24 +1,25 @@
 # HR App
 
-A simple educational application for managing employees.  
-The project is split into two independent parts:
+A simple educational application for managing employees.
+
+The repository is split into two deployable parts:
 
 - **hrApp-frontend/** — React (Vite) frontend
-- **hrApp-backend/** — API (json-server) deployed on Render
+- **hrApp-backend/** — API powered by `json-server`
 
-## 🚀 Deployments
+## Deployments
 
 ### Frontend
 
-Deployed as a Static Site on Render:  
+Static site on Render:
 https://hrappsite.onrender.com/
 
 ### Backend
 
-API deployed on Render:  
+API on Render:
 https://hrapp-ovc7.onrender.com/employees
 
-## 🧰 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -26,82 +27,96 @@ https://hrapp-ovc7.onrender.com/employees
 - Vite
 - React Router
 - Axios
-- Material UI (MUI)
+- Material UI
+- ESLint
 
 ### Backend
 
-- JSON Server
-- Render Web Service
+- `json-server`
+- Node.js
 
-## ✨ Features
+## Quality Baseline
+
+- Prettier for consistent formatting
+- EditorConfig for shared editor defaults
+- ESLint for frontend code quality
+- GitHub Actions CI with `concurrency` and explicit `timeout-minutes`
+
+## Features
 
 - View employee list
 - Add new employees
 - Edit employee details
 - Probation and anniversary reminders
 
-## 📂 Project Structure
+## Project Structure
 
-```
+```text
 hrApp/
-│
+├── .github/workflows/ci.yml
+├── package.json
 ├── hrApp-frontend/
-│   └── src/
-│
+│   ├── src/
+│   └── README.md
 ├── hrApp-backend/
-│   └── db.json
-│
+│   ├── db.json
+│   └── scripts/check-db.js
 └── README.md
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
-Fetch all employees:
+- `GET /employees`
+- `POST /employees`
+- `PATCH /employees/:id`
 
-```
-GET /employees
-```
+## Running Locally
 
-Create a new employee:
+Install dependencies once per package:
 
-```
-POST /employees
-```
-
-Update an employee:
-
-```
-PATCH /employees/:id
+```bash
+npm ci
+npm --prefix hrApp-frontend ci
+npm --prefix hrApp-backend ci
 ```
 
-## 🏃 Running Locally
+Start the backend:
 
-### Backend
-
-```
+```bash
 cd hrApp-backend
-npm install
 npm start
 ```
 
-### Frontend
+Start the frontend:
 
-```
+```bash
 cd hrApp-frontend
-npm install
 npm run dev
 ```
 
-## 📝 Notes
+Optional frontend environment override:
 
-- The project is separated into frontend and backend for easier deployment and maintenance.
-- In production, the frontend automatically communicates with the backend deployed on Render.
+```bash
+VITE_API_URL=http://localhost:3001
+```
 
-## ✅ Done
+## Quality Commands
 
-- Frontend deployed on Render with Vite + React Router setup
-- Backend JSON Server deployed on Render with employee CRUD endpoints
-- Axios-based data fetching wired to the deployed API
-- Local development scripts verified for both frontend and backend
+Run repository-wide checks from the project root:
 
+```bash
+npm run format
+npm run format:check
+npm run lint
+npm run build
+npm run check:backend
+npm run check
+```
 
+## Notes
+
+- The frontend uses `VITE_API_URL` when it is set.
+- Without `VITE_API_URL`, development uses `http://localhost:3001` and production
+  uses the Render backend.
+- CI runs formatting, frontend lint/build and backend data validation on pull
+  requests and pushes to `main`.

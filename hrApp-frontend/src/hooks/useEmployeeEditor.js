@@ -48,8 +48,7 @@ export default function useEmployeeEditor(initialValues, onUpdateEmployee, id) {
 
     if (formData.salary !== salary) updates.salary = formData.salary;
     if (formData.location !== location) updates.location = formData.location;
-    if (formData.department !== department)
-      updates.department = formData.department;
+    if (formData.department !== department) updates.department = formData.department;
 
     const originalSkills = Array.isArray(skills) ? skills.join(", ") : "";
     if (formData.skillsText !== originalSkills) {

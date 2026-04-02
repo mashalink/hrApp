@@ -1,6 +1,8 @@
 import { Box, Typography } from "@mui/material";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <Box
       component="footer"
@@ -14,7 +16,7 @@ export default function Footer() {
       }}
     >
       <Typography variant="body2" color="text.secondary">
-        © 2025 WP25K Maria Link
+        © {currentYear} WP25K Maria Link
       </Typography>
     </Box>
   );

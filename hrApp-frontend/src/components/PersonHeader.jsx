@@ -29,7 +29,10 @@ export default function PersonHeader({
 
       {isAnniversary && (
         <Alert severity="success" sx={{ mt: 1 }}>
-          🎉 Anniversary{typeof yearsWorked === "number" ? ` — ${yearsWorked} years worked!` : ""}{" "}
+          🎉 Anniversary
+          {typeof yearsWorked === "number"
+            ? ` — ${yearsWorked} years worked!`
+            : ""}{" "}
           Schedule recognition meeting.
         </Alert>
       )}
@@ -42,4 +45,3 @@ export default function PersonHeader({
     </Box>
   );
 }
-

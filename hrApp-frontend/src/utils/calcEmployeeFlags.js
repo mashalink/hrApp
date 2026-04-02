@@ -16,12 +16,9 @@ export function getEmployeeFlags(startDate) {
 
   const hasHadAnniversaryThisYear =
     today.getMonth() > start.getMonth() ||
-    (today.getMonth() === start.getMonth() &&
-      today.getDate() >= start.getDate());
+    (today.getMonth() === start.getMonth() && today.getDate() >= start.getDate());
 
-  const yearsWorked = hasHadAnniversaryThisYear
-    ? yearsDiff
-    : yearsDiff - 1;
+  const yearsWorked = hasHadAnniversaryThisYear ? yearsDiff : yearsDiff - 1;
 
   // Full months worked (calendar-based)
   const monthsWorked =

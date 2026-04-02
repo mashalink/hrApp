@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  Grid,
-  Paper,
-} from "@mui/material";
+import { Box, Button, TextField, Typography, Grid, Paper } from "@mui/material";
 import { useState } from "react";
 
 function createInitialFormData() {
@@ -150,7 +143,6 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-
             <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
@@ -175,7 +167,6 @@ export default function AddEmployee({ onAddEmployee }) {
                 sx={{ flexGrow: 1 }}
               />
             </Grid>
-
           </Grid>
 
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
