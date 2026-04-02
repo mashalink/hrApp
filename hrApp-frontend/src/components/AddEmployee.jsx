@@ -8,8 +8,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export default function AddEmployee({ onAddEmployee }) {
-  const [formData, setFormData] = useState({
+function createInitialFormData() {
+  return {
     name: "",
     title: "",
     salary: "",
@@ -20,7 +20,12 @@ export default function AddEmployee({ onAddEmployee }) {
     location: "",
     department: "",
     skills: "",
-  });
+  };
+}
+
+export default function AddEmployee({ onAddEmployee }) {
+  const [formData, setFormData] = useState(createInitialFormData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -29,19 +34,18 @@ export default function AddEmployee({ onAddEmployee }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await onAddEmployee(formData);
-    setFormData({
-      name: "",
-      title: "",
-      salary: "",
-      phone: "",
-      email: "",
-      animal: "",
-      startDate: "",
-      location: "",
-      department: "",
-      skills: "",
-    });
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await onAddEmployee(formData);
+
+      if (result?.ok) {
+        setFormData(createInitialFormData());
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -175,8 +179,13 @@ export default function AddEmployee({ onAddEmployee }) {
           </Grid>
 
           <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-            <Button type="submit" variant="contained" size="large">
-              Add Employee
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Adding..." : "Add Employee"}
             </Button>
           </Box>
         </Box>
