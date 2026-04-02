@@ -9,8 +9,16 @@ export default function PersonActions({
   onSave,
 }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2, width: "100%" }}>
-      <Stack direction="row" spacing={1}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        gap: 1,
+        width: "100%",
+      }}
+    >
+      <Stack direction="row" spacing={1} justifyContent="flex-end">
         {isEditing ? (
           <>
             <Button
@@ -18,6 +26,7 @@ export default function PersonActions({
               size="small"
               onClick={onSave}
               disabled={isSaving}
+              sx={{ minWidth: 94 }}
             >
               {isSaving ? "Saving..." : "Save"}
             </Button>
@@ -27,19 +36,26 @@ export default function PersonActions({
               type="button"
               onClick={onCancel}
               disabled={isSaving}
+              sx={{ minWidth: 94 }}
             >
               Cancel
             </Button>
           </>
         ) : (
-          <Button variant="contained" size="small" type="button" onClick={onEdit}>
+          <Button
+            variant="contained"
+            size="small"
+            type="button"
+            onClick={onEdit}
+            sx={{ minWidth: 94 }}
+          >
             Edit
           </Button>
         )}
       </Stack>
 
       {saveMessage && (
-        <Typography variant="caption" color="success.main">
+        <Typography variant="caption" color="success.main" textAlign="right">
           {saveMessage}
         </Typography>
       )}

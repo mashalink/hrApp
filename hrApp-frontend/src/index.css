@@ -1,11 +1,23 @@
 * {
   box-sizing: border-box;
+}
+
+html,
+body {
   margin: 0;
-  padding: 0;
+  min-height: 100%;
 }
 
 body {
-  font-family: Arial, sans-serif;
   line-height: 1.6;
-  background: rgb(184, 210, 231);
+  color: #18322f;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(196, 111, 68, 0.26);
+  color: #18322f;
 }

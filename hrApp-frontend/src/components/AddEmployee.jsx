@@ -1,4 +1,5 @@
 import { Box, Button, TextField, Typography, Grid, Paper } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { useState } from "react";
 
 function createInitialFormData() {
@@ -42,11 +43,40 @@ export default function AddEmployee({ onAddEmployee }) {
   }
 
   return (
-    <Box sx={{ maxWidth: 900, mx: "auto", mt: 4 }}>
-      <Paper elevation={3} sx={{ p: 3 }}>
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 600 }}>
-          Add New Employee
-        </Typography>
+    <Box sx={{ width: "100%", maxWidth: 1100, mx: "auto", mt: 4, px: 2 }}>
+      <Paper
+        elevation={0}
+        sx={{
+          p: { xs: 3, md: 4 },
+          borderRadius: { xs: 2, md: 3 },
+          background:
+            "linear-gradient(180deg, rgba(255, 250, 244, 0.96) 0%, rgba(247, 240, 230, 0.94) 100%)",
+        }}
+      >
+        <Box
+          sx={{
+            mb: 4,
+            p: { xs: 2.5, md: 3 },
+            borderRadius: 2,
+            background:
+              "linear-gradient(135deg, rgba(24, 50, 47, 0.94), rgba(31, 111, 102, 0.88))",
+            color: "#fffaf4",
+          }}
+        >
+          <Typography
+            variant="overline"
+            sx={{ color: alpha("#fffaf4", 0.72), letterSpacing: "0.16em" }}
+          >
+            New Employee
+          </Typography>
+          <Typography variant="h3" sx={{ mt: 1 }}>
+            Add a teammate
+          </Typography>
+          <Typography sx={{ mt: 1.5, maxWidth: 620, color: alpha("#fffaf4", 0.8) }}>
+            Capture the essentials once and keep the directory current. This form feeds
+            the employee cards and table view directly.
+          </Typography>
+        </Box>
 
         <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={2} alignItems="flex-start">
@@ -169,7 +199,7 @@ export default function AddEmployee({ onAddEmployee }) {
             </Grid>
           </Grid>
 
-          <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
+          <Box sx={{ mt: 3.5, display: "flex", justifyContent: "flex-end" }}>
             <Button
               type="submit"
               variant="contained"
