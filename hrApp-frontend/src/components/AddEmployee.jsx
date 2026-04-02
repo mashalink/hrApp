@@ -2,6 +2,12 @@ import { Box, Button, TextField, Typography, Grid, Paper } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { useState } from "react";
 
+const initialFieldErrors = {
+  name: "",
+  email: "",
+  salary: "",
+};
+
 function createInitialFormData() {
   return {
     name: "",
@@ -17,17 +23,78 @@ function createInitialFormData() {
   };
 }
 
+function validateField(name, value) {
+  const trimmedValue = typeof value === "string" ? value.trim() : value;
+
+  if (name === "name") {
+    if (!trimmedValue) {
+      return "Name is required.";
+    }
+  }
+
+  if (name === "email") {
+    if (!trimmedValue) {
+      return "Email is required.";
+    }
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue);
+
+    if (!isValidEmail) {
+      return "Enter a valid email address.";
+    }
+  }
+
+  if (name === "salary") {
+    if (trimmedValue === "") {
+      return "Salary is required.";
+    }
+
+    const numericSalary = Number(trimmedValue);
+
+    if (Number.isNaN(numericSalary)) {
+      return "Salary must be a number.";
+    }
+
+    if (numericSalary < 0) {
+      return "Salary must be 0 or more.";
+    }
+  }
+
+  return "";
+}
+
 export default function AddEmployee({ onAddEmployee }) {
   const [formData, setFormData] = useState(createInitialFormData);
+  const [fieldErrors, setFieldErrors] = useState(initialFieldErrors);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name in initialFieldErrors) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        [name]: validateField(name, value),
+      }));
+    }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const nextFieldErrors = {
+      name: validateField("name", formData.name),
+      email: validateField("email", formData.email),
+      salary: validateField("salary", formData.salary),
+    };
+
+    setFieldErrors(nextFieldErrors);
+
+    if (Object.values(nextFieldErrors).some(Boolean)) {
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -36,6 +103,7 @@ export default function AddEmployee({ onAddEmployee }) {
 
       if (result?.ok) {
         setFormData(createInitialFormData());
+        setFieldErrors(initialFieldErrors);
       }
     } finally {
       setIsSubmitting(false);
@@ -80,7 +148,7 @@ export default function AddEmployee({ onAddEmployee }) {
 
         <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={2} alignItems="flex-start">
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -88,11 +156,13 @@ export default function AddEmployee({ onAddEmployee }) {
                 label="Name"
                 value={formData.name}
                 onChange={handleChange}
+                error={Boolean(fieldErrors.name)}
+                helperText={fieldErrors.name || " "}
                 required
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -104,19 +174,22 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
                 name="email"
                 label="Email"
+                type="email"
                 value={formData.email}
                 onChange={handleChange}
+                error={Boolean(fieldErrors.email)}
+                helperText={fieldErrors.email || " "}
                 required
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -127,7 +200,7 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -138,7 +211,7 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -149,7 +222,7 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -160,7 +233,7 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -169,11 +242,14 @@ export default function AddEmployee({ onAddEmployee }) {
                 type="number"
                 value={formData.salary}
                 onChange={handleChange}
+                error={Boolean(fieldErrors.salary)}
+                helperText={fieldErrors.salary || " "}
+                inputProps={{ min: 0 }}
                 required
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
@@ -184,7 +260,7 @@ export default function AddEmployee({ onAddEmployee }) {
               />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <TextField
                 fullWidth
                 size="small"
