@@ -10,8 +10,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import EmployeesState from "./EmployeesState.jsx";
 
 export default function EmployeeTable({ employees }) {
+  if (employees.length === 0) {
+    return <EmployeesState variant="empty" />;
+  }
+
   const employeeCount = employees.length;
 
   return (

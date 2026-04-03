@@ -1,16 +1,10 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import EmployeesState from "./EmployeesState.jsx";
 import Person from "./PersonCard.jsx";
 
 export default function PersonList({ employees, onUpdateEmployee }) {
   if (employees.length === 0) {
-    return (
-      <Paper sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 4, borderRadius: 5 }}>
-        <Typography variant="h5">No employees yet</Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-          Add the first employee to start building the team roster.
-        </Typography>
-      </Paper>
-    );
+    return <EmployeesState variant="empty" />;
   }
 
   return (

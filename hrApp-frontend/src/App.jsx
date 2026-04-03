@@ -8,8 +8,8 @@ import {
   getRequestErrorMessage,
   updateEmployee,
 } from "./api/employees.js";
+import EmployeesState from "./components/EmployeesState.jsx";
 import Layout from "./components/Layout.jsx";
-import RouteFallback from "./components/RouteFallback.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -19,6 +19,7 @@ const EmployeeTable = lazy(() => import("./components/EmployeeTable.jsx"));
 const LOAD_EMPLOYEES_ERROR = "Failed to load employees.";
 const ADD_EMPLOYEE_ERROR = "Something went wrong while adding the employee.";
 const UPDATE_EMPLOYEE_ERROR = "Failed to save changes.";
+const SLOW_LOADING_THRESHOLD_MS = 4000;
 
 const initialSnackbarState = {
   open: false,
@@ -29,6 +30,9 @@ const initialSnackbarState = {
 export default function App() {
   const [employees, setEmployees] = useState([]);
   const [isLoadingEmployees, setIsLoadingEmployees] = useState(true);
+  const [isSlowLoadingEmployees, setIsSlowLoadingEmployees] = useState(false);
+  const [loadEmployeesError, setLoadEmployeesError] = useState("");
+  const [employeesReloadKey, setEmployeesReloadKey] = useState(0);
   const [snackbar, setSnackbar] = useState(initialSnackbarState);
 
   function showSnackbar(message, severity = "info") {
@@ -50,8 +54,21 @@ export default function App() {
     }));
   }
 
+  function retryLoadEmployees() {
+    setEmployeesReloadKey((prev) => prev + 1);
+  }
+
   useEffect(() => {
     let isActive = true;
+    const slowLoadingTimer = window.setTimeout(() => {
+      if (isActive) {
+        setIsSlowLoadingEmployees(true);
+      }
+    }, SLOW_LOADING_THRESHOLD_MS);
+
+    setIsLoadingEmployees(true);
+    setIsSlowLoadingEmployees(false);
+    setLoadEmployeesError("");
 
     async function loadEmployees() {
       try {
@@ -62,11 +79,13 @@ export default function App() {
         }
       } catch (err) {
         console.error("Failed to load employees", err);
+        const errorMessage = getRequestErrorMessage(err, LOAD_EMPLOYEES_ERROR);
 
         if (isActive) {
+          setLoadEmployeesError(errorMessage);
           setSnackbar({
             open: true,
-            message: getRequestErrorMessage(err, LOAD_EMPLOYEES_ERROR),
+            message: errorMessage,
             severity: "error",
           });
         }
@@ -81,8 +100,9 @@ export default function App() {
 
     return () => {
       isActive = false;
+      window.clearTimeout(slowLoadingTimer);
     };
-  }, []);
+  }, [employeesReloadKey]);
 
   async function onAddEmployee(formData) {
     try {
@@ -132,36 +152,42 @@ export default function App() {
     }
   }
 
+  const homeElement = isLoadingEmployees ? (
+    <EmployeesState variant="loading" isSlow={isSlowLoadingEmployees} />
+  ) : loadEmployeesError ? (
+    <EmployeesState
+      variant="error"
+      errorMessage={loadEmployeesError}
+      onRetry={retryLoadEmployees}
+    />
+  ) : (
+    <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
+  );
+
+  const tableElement = isLoadingEmployees ? (
+    <EmployeesState variant="loading" isSlow={isSlowLoadingEmployees} />
+  ) : loadEmployeesError ? (
+    <EmployeesState
+      variant="error"
+      errorMessage={loadEmployeesError}
+      onRetry={retryLoadEmployees}
+    />
+  ) : (
+    <EmployeeTable employees={employees} />
+  );
+
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route
-              index
-              element={
-                isLoadingEmployees ? (
-                  <RouteFallback />
-                ) : (
-                  <Home employees={employees} onUpdateEmployee={onUpdateEmployee} />
-                )
-              }
-            />
+            <Route index element={homeElement} />
             <Route path="about" element={<About />} />
             <Route
               path="add_employee"
               element={<AddEmployee onAddEmployee={onAddEmployee} />}
             />
-            <Route
-              path="table"
-              element={
-                isLoadingEmployees ? (
-                  <RouteFallback />
-                ) : (
-                  <EmployeeTable employees={employees} />
-                )
-              }
-            />
+            <Route path="table" element={tableElement} />
             <Route path="*" element={<div>404 - Not Found</div>} />
           </Route>
         </Routes>
