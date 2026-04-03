@@ -5,7 +5,7 @@ A simple educational application for managing employees.
 The repository is split into two deployable parts:
 
 - **hrApp-frontend/** — React (Vite) frontend
-- **hrApp-backend/** — API powered by `json-server`
+- **hrApp-backend/** — Express API powered by PostgreSQL and Sequelize
 
 ## Deployments
 
@@ -32,7 +32,9 @@ https://hrapp-ovc7.onrender.com/employees
 
 ### Backend
 
-- `json-server`
+- Express
+- Sequelize
+- PostgreSQL
 - Node.js
 
 ## Quality Baseline
@@ -59,8 +61,10 @@ hrApp/
 │   ├── src/
 │   └── README.md
 ├── hrApp-backend/
+│   ├── src/
+│   ├── scripts/
 │   ├── db.json
-│   └── scripts/check-db.js
+│   └── .env.example
 └── README.md
 ```
 
@@ -69,6 +73,7 @@ hrApp/
 - `GET /employees`
 - `POST /employees`
 - `PATCH /employees/:id`
+- `GET /health`
 
 ## Running Locally
 
@@ -78,6 +83,20 @@ Install dependencies once per package:
 npm ci
 npm --prefix hrApp-frontend ci
 npm --prefix hrApp-backend ci
+```
+
+Create backend env from the example:
+
+```bash
+cp hrApp-backend/.env.example hrApp-backend/.env
+```
+
+Update `DATABASE_URL` in `hrApp-backend/.env` to your PostgreSQL instance.
+
+Seed PostgreSQL from the current sample dataset when needed:
+
+```bash
+npm --prefix hrApp-backend run db:seed
 ```
 
 Start the backend:
@@ -100,6 +119,14 @@ Optional frontend environment override:
 VITE_API_URL=http://localhost:3001
 ```
 
+Recommended backend environment variables:
+
+```bash
+CORS_ORIGIN=http://localhost:5173,https://your-frontend.onrender.com
+DB_SYNC=false
+DB_SSL=true
+```
+
 ## Quality Commands
 
 Run repository-wide checks from the project root:
@@ -118,5 +145,9 @@ npm run check
 - The frontend uses `VITE_API_URL` when it is set.
 - Without `VITE_API_URL`, development uses `http://localhost:3001` and production
   uses the Render backend.
-- CI runs formatting, frontend lint/build and backend data validation on pull
+- `hrApp-backend/db.json` is now seed data for PostgreSQL, not the runtime database.
+- The backend bootstraps the database schema through Sequelize on startup when
+  `DB_SYNC=true`.
+- The backend CORS policy is configurable through `CORS_ORIGIN`.
+- CI runs formatting, frontend lint/build and backend seed-data validation on pull
   requests and pushes to `main`.

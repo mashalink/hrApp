@@ -1,13 +1,18 @@
-const jsonServer = require("json-server");
-const server = jsonServer.create();
-const router = jsonServer.router("db.json");
-const middlewares = jsonServer.defaults();
+const { createApp } = require("./app");
+const { databaseConfig, serverConfig } = require("./src/config/env");
+const { initializeDatabase } = require("./src/db/sequelize");
 
-const PORT = process.env.PORT || 3001;
+async function startServer() {
+  await initializeDatabase({ sync: databaseConfig.syncOnBoot });
 
-server.use(middlewares);
-server.use(router);
+  const app = createApp();
 
-server.listen(PORT, () => {
-  console.log(`JSON Server is running on port ${PORT}`);
+  app.listen(serverConfig.port, () => {
+    console.log(`HR backend is running on port ${serverConfig.port}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.error("Failed to start backend", error);
+  process.exit(1);
 });

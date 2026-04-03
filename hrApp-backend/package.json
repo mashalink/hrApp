@@ -4,6 +4,9 @@
   "main": "server.js",
   "scripts": {
     "check": "node ./scripts/check-db.js",
+    "db:seed": "node ./scripts/seed.js",
+    "db:seed:reset": "node ./scripts/seed.js --force",
+    "dev": "nodemon server.js",
     "test": "npm run check",
     "start": "node server.js"
   },
@@ -15,6 +18,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "json-server": "^0.17.4"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "pg": "^8.13.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
