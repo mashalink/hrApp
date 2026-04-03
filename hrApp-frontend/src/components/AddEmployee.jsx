@@ -244,7 +244,7 @@ export default function AddEmployee({ onAddEmployee }) {
                 onChange={handleChange}
                 error={Boolean(fieldErrors.salary)}
                 helperText={fieldErrors.salary || " "}
-                inputProps={{ min: 0 }}
+                slotProps={{ htmlInput: { min: 0 } }}
                 required
               />
             </Grid>

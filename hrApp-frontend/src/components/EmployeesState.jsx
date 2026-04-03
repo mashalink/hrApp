@@ -18,8 +18,7 @@ const stateConfig = {
   },
   empty: {
     title: "No employees yet",
-    description:
-      "Add the first employee to populate the directory and table views.",
+    description: "Add the first employee to populate the directory and table views.",
   },
 };
 

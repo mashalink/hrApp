@@ -35,6 +35,7 @@ export default function PersonCard({
     isEditing,
     isSaving,
     formData,
+    fieldErrors,
     saveMessage,
     startEditing,
     cancelEditing,
@@ -132,7 +133,9 @@ export default function PersonCard({
               label="Salary"
               value={formData.salary}
               onChange={handleFieldChange}
-              InputProps={{ inputProps: { min: 0 } }}
+              error={Boolean(fieldErrors.salary)}
+              helperText={fieldErrors.salary || " "}
+              slotProps={{ htmlInput: { min: 0 } }}
             />
             <TextField
               fullWidth
