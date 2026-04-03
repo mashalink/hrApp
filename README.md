@@ -7,6 +7,12 @@ The repository is split into two deployable parts:
 - **hrApp-frontend/** — React (Vite) frontend
 - **hrApp-backend/** — Express API powered by PostgreSQL and Sequelize
 
+Runtime architecture:
+
+- **Frontend** — deployed to Render as a static site
+- **Backend** — deployed to Render as a separate web service
+- **Database** — hosted on Supabase PostgreSQL
+
 ## Deployments
 
 ### Frontend
@@ -18,6 +24,13 @@ https://hrappsite.onrender.com/
 
 API on Render:
 https://hrapp-ovc7.onrender.com/employees
+
+### Database
+
+PostgreSQL on Supabase:
+
+- backend connects to Supabase through `DATABASE_URL`
+- frontend never talks to Supabase directly
 
 ## Tech Stack
 
@@ -35,6 +48,7 @@ https://hrapp-ovc7.onrender.com/employees
 - Express
 - Sequelize
 - PostgreSQL
+- Supabase (managed PostgreSQL)
 - Node.js
 
 ## Quality Baseline
@@ -96,6 +110,7 @@ Update `DATABASE_URL` in `hrApp-backend/.env` to your PostgreSQL instance.
 Seed PostgreSQL from the current sample dataset when needed:
 
 ```bash
+npm --prefix hrApp-backend run db:migrate
 npm --prefix hrApp-backend run db:seed
 ```
 
@@ -123,9 +138,14 @@ Recommended backend environment variables:
 
 ```bash
 CORS_ORIGIN=http://localhost:5173,https://your-frontend.onrender.com
-DB_SYNC=false
 DB_SSL=true
 ```
+
+Recommended deployment split:
+
+- frontend: Render Static Site
+- backend: Render Web Service
+- database: Supabase PostgreSQL
 
 ## Quality Commands
 
@@ -146,8 +166,10 @@ npm run check
 - Without `VITE_API_URL`, development uses `http://localhost:3001` and production
   uses the Render backend.
 - `hrApp-backend/db.json` is now seed data for PostgreSQL, not the runtime database.
-- The backend bootstraps the database schema through Sequelize on startup when
-  `DB_SYNC=true`.
+- The backend schema is managed through explicit migrations instead of
+  `sequelize.sync`.
 - The backend CORS policy is configurable through `CORS_ORIGIN`.
+- The production database is intended to live on Supabase, while frontend and
+  backend are deployed separately on Render.
 - CI runs formatting, frontend lint/build and backend seed-data validation on pull
   requests and pushes to `main`.

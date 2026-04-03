@@ -1,9 +1,9 @@
 const { createApp } = require("./app");
-const { databaseConfig, serverConfig } = require("./src/config/env");
+const { serverConfig } = require("./src/config/env");
 const { initializeDatabase } = require("./src/db/sequelize");
 
 async function startServer() {
-  await initializeDatabase({ sync: databaseConfig.syncOnBoot });
+  await initializeDatabase();
 
   const app = createApp();
 

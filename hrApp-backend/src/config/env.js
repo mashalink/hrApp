@@ -39,7 +39,6 @@ const databaseConfig = {
   schema: process.env.DB_SCHEMA || "public",
   ssl: parseBoolean(process.env.DB_SSL, false),
   logSql: parseBoolean(process.env.DB_LOG_SQL, false),
-  syncOnBoot: parseBoolean(process.env.DB_SYNC, false),
 };
 
 function getRequiredDatabaseUrl() {

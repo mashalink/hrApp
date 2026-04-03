@@ -5,6 +5,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "ci:all": "npm ci && npm --prefix hrApp-frontend ci && npm --prefix hrApp-backend ci",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm --prefix hrApp-frontend run lint",

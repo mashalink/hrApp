@@ -1,6 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { Employee, initializeDatabase, sequelize } = require("../src/db/sequelize");
+const { runMigrations } = require("../src/db/migrator");
 const {
   PayloadValidationError,
   validateSeedDatabase,
@@ -31,15 +32,14 @@ async function resetEmployeeIdSequence() {
 async function seedDatabase({ force = false } = {}) {
   const employees = validateSeedDatabase(readSeedDatabase());
 
-  await initializeDatabase({ sync: true, force });
+  await initializeDatabase();
+  await runMigrations();
 
-  if (!force) {
-    await Employee.destroy({
-      where: {},
-      truncate: true,
-      restartIdentity: true,
-    });
-  }
+  await Employee.destroy({
+    where: {},
+    truncate: true,
+    restartIdentity: true,
+  });
 
   await Employee.bulkCreate(employees);
   await resetEmployeeIdSequence();
@@ -49,7 +49,7 @@ async function seedDatabase({ force = false } = {}) {
 
 async function main() {
   try {
-    await seedDatabase({ force: process.argv.includes("--force") });
+    await seedDatabase();
   } catch (error) {
     if (error instanceof PayloadValidationError) {
       console.error(error.issues.join("\n"));

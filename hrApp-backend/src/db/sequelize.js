@@ -28,17 +28,14 @@ async function ensureDatabaseSchema() {
   await sequelize.query(`CREATE SCHEMA IF NOT EXISTS ${quotedSchema};`);
 }
 
-async function initializeDatabase({ sync = true, force = false } = {}) {
+async function initializeDatabase() {
   await sequelize.authenticate();
   await ensureDatabaseSchema();
-
-  if (sync) {
-    await sequelize.sync({ force });
-  }
 }
 
 module.exports = {
   Employee,
+  ensureDatabaseSchema,
   initializeDatabase,
   sequelize,
 };
