@@ -3,10 +3,11 @@ import axios from "axios";
 const API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.PROD ? "https://hrapp-ovc7.onrender.com" : "http://localhost:3001");
+const API_TIMEOUT_MS = 20000;
 
 const client = axios.create({
   baseURL: API_URL,
-  timeout: 10000,
+  timeout: API_TIMEOUT_MS,
 });
 
 export function fetchEmployees() {
